@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">  
+    <head>  
+        <title>testFC</title>  
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+        <style type="text/css" media="screen">  
+        html, body { height:100%; background-color: #ffffff;}  
+        body { margin:0; padding:0; overflow:hidden; }  
+        #flashContent { width:100%; height:100%; }  
+        </style>  
+        <script type="text/javascript">  
+            function setFC(){  
+                thisMovie().setFC("soctt","m");  
+            }  
+            function setFCUseObj(){  
+                var obj = new Object();  
+                obj.userName="AlecYan";  
+                obj.sex="m";  
+                thisMovie().setFCUserObj(obj);  
+            }  
+            function getFC(){  
+                alert(thisMovie().getFC());  
+            }  
+            //输出测试，通过v传递flash变量  
+            function GetSwfUrl(v) {alert("ooooo");  
+            alert(v);  
+      
+            }  
+            //调用flash中的方法，"my_mv"为html页中swf的id  
+            function callExternal() {
+                alert("ffff");  
+                thisMovie().flAlert();
+                alert("111");  
+            }  
+            //搭建js与flash互通的环境  
+            function thisMovie() {  
+                if (navigator.appName.indexOf("Microsoft") != -1) {  
+                    return window["testFC"];  
+                }else{  
+                    return document["testFC"];  
+                }  
+            }   
+              
+        </script>  
+    </head>  
+      
+    <body>  
+    <input type="button" onclick="callExternal()" value="Call callExternal" />  
+    <input type="button" onclick="setFC()" value="setFC" />  
+    <input type="button" onclick="getFC()" value="getFC" />  
+    <input type="button" onclick="setFCUseObj()" value="setFCUseObj" />  
+          
+        <div id="flashContent">  
+             <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="1" height="1" id="testFC" title="testFC" align="middle">  
+             <param name="allowScriptAccess" value="always" />  
+             <param name="movie" value="testFC.swf">  
+             <param name="quality" value="high">  
+             <param name="wmode" value="transparent" />  
+             <embed src="testFC.swf" name="testFC" quality="high" allowScriptAccess="always"  swLiveConnect="true" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"  width="1" height="1"></embed>  
+            </object>  
+    </div>  
+    </body>  
+</html>  

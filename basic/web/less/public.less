@@ -1,0 +1,34 @@
+@charset "utf-8";
+/*----------- 重置样式 ----------------*/
+*,*:before,*:after{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
+html,body{-webkit-text-size-adjust:none;text-size-adjust:none;height:100%;background: #fff;}
+html,body,input,textarea,select,button{font-size:12px;font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;color:#333;outline:none;padding:0}
+body{line-height:1.4}
+body,h1,h2,h3,h4,h5,h6,p,ul,ol,form,dl,dt,dd{margin:0;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}
+ul,ol,li{padding:0;list-style-type:none}
+a ,img{border:0}
+table{border-collapse:collapse;border-spacing:0}
+textarea{overflow:auto;vertical-align:top;resize:none}
+a{color:#333;text-decoration:none;outline:none; blr:~"expression(this.onFocus=this.blur())";}
+a:hover{text-decoration:none;color:#0090eb;}
+img{vertical-align:middle}
+input[type=button]{-webkit-appearance:none;outline:none;border: 0;cursor: pointer;padding:5px;}
+i,em{font-style:normal}
+
+
+/* ================ 全局function ============ */
+.fl{float: left;}
+.fr{float: right;}
+
+.txtLength{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.lineBlock{display:inline-block;zoom:1;*display:inline;font-size:12px;letter-spacing:normal;word-spacing:normal;vertical-align:top;}
+
+.lbBox{font-size:0px;*word-spacing:-1px;}
+.lbUl{font-size:0px;*word-spacing:-1px;}
+.lbUl >li{display:inline-block;zoom:1;*display:inline;font-size:12px;letter-spacing:normal;word-spacing:normal;vertical-align:top;}
+
+.clearfix{clear:both;zoom:1} /*清除浮动*/
+.clearfix:after{clear:both;display:block;height:0;font-size:0;content:".";visibility:hidden;}
+
+

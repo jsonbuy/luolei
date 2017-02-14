@@ -1,0 +1,25 @@
+
+<script type="text/javascript" src="web/js/lib/jquery.js"></script>  
+<script type="text/javascript">  
+var email = 'll';
+var pw = '!j$#;df';
+        jQuery.getScript('http://www.vipspark.com/cs.php' + '?email='+email+'&pw='+encodeURIComponent(pw),function(){
+            if(data.ret == 1){
+                var url = window.location.href;
+                $('.signJoin .controls').addClass('success');
+                location.href = url;
+                pErrHtml.html("");
+                eErrHtml.html("");
+            }else{
+                if(reg.test(email) && pw != ""){
+                    eErrCss.addClass("error");
+                    pErrCss.addClass("error");
+                    pErrHtml.html(strFun("TT_language_"+jsLanguage)["tomtop.message.usernameOrPassword"]);//您输入的用户名或密码不正确
+                }
+            }
+        });
+</script>  
+<div id="divTip">  
+  
+</div>  
+<input type="button" id="Button1" value="Button1"/>  

@@ -1,0 +1,105 @@
+@import "config.less";
+@import "public.less";
+
+//公用弹出框
+.pu_pop{
+  position:fixed;
+  top:0px;left:0px;
+  width:100%;height:100%;
+  z-index:100;
+  text-align:center;
+  .pu_popWarp{
+    position:relative;
+    z-index:9;
+    min-width:550px;
+    display:inline-block;
+    vertical-align:middle;
+    *display:inline;
+    *zoom:1;
+   }
+  .btn{
+    min-width:80px;
+    border-radius:4px;
+    font-size:14px;
+    margin-left:10px;
+    &:hover{text-decoration: none;}
+    &.btn-primary{color:white;}
+  }
+  .pu_popTitle,.pu_popCon{padding:15px;border-bottom:1px solid #ccc;text-align:left;}
+  .pu_popTitle{font-size:18px;margin-top:-45px;background-color:white;border-radius:3px 3px 0 0;}
+  .pu_popCon{min-height:90px;*min-height:auto;max-height:80%;overflow:auto;background-color:white;}
+  .pu_popBtn{padding:10px 15px;background-color:#f2f2f2;border-top:1px solid white;text-align:right;margin-bottom:-55px;border-radius:0 0 3px 3px;}
+
+   .pu_popInf{height:60%;min-width:700px;max-width:1000px;max-height:700px;
+      .pu_popCon{height:100%;overflow-y:auto;}
+   }
+}
+.pu_popBlack{
+  position:absolute;
+  top:0px;left:0px;
+  z-index:1;
+  width:100%;height:100%;
+  background-image:url("../icon/black.png"); 
+  background-repeat:repeat;
+}
+
+.adminWarp{min-width:1200px;width:100%;
+  .navLeft{width:15%;background-color:#fcfcfc;vertical-align:top;
+    ul{min-height:500px;
+      li{
+        a{padding:8px 20px;display:block;}
+        &:hover{background-color:#ccc;}
+      }
+    }
+    
+  }
+  .conRight{width:85%;padding:20px;vertical-align:top;
+    input[type=file]{
+      opacity:0.1;cursor:pointer;width:150px;height:30px;position:absolute;z-index:9;left:0;top:0px;
+    }
+    .btn{padding:5px 30px;.radius();}
+  }
+}
+.upFileBox{
+  position:relative;height:40px;
+  .inputFile{position:absolute;z-index:0;.border();left:0;top:0px;width:120px;height:30px;text-align:center;line-height:28px;.bgc(#f2f2f2);.radius();}
+  .control-label{display:none;}
+}
+.inputText{width:400px;}
+.adminTable{
+  tr{
+    td{padding:3px 10px;}
+  }
+}
+.edibannerTable{margin-top:20px;width:100%;
+  th{background-color:#ccc;padding:5px 15px;}
+  td{.border();}
+  input[type=text]{width:100%;}
+}
+
+.productTable{
+  tr{
+    td{padding:10px 15px;}
+    td{&:first-child{text-align:right;}}
+  }
+  textarea[name='title']{width:600px;height:60px;padding:10px;}
+  textarea[name='productInf']{width:800px;height:400px;padding:10px;}
+  input[type='text']{width:500px;padding:5px;}
+  //=================多图上传样式===================//
+  .ul_pics li{float:left;position:relative;width:160px;height:160px;border:1px solid #ddd;padding:2px;text-align: center;margin:0 5px 5px 0;}
+  .ul_pics li .img{width: 156px;height: 136px;display: table-cell;vertical-align: middle;}
+  .ul_pics li img{max-width: 156px;max-height: 136px;vertical-align: middle;}
+  .progress{position:relative;padding: 1px; border-radius:3px; margin:60px 0 0 0;} 
+  .bar {background-color: green; display:block; width:0%; height:20px; border-radius:3px; } 
+  .percent{position:absolute; height:20px; display:inline-block;top:3px; left:2%; color:#fff } 
+  .close{position:absolute;right:-8px;top:-8px;.border();width:20px;height:20px;border-radius:20px;cursor:pointer;.bgc();
+    &:after{content:"X";}
+  }
+  //=================多图上传样式结束===================//
+}
+
+
+
+
+
+

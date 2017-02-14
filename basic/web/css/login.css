@@ -1,0 +1,108 @@
+*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
+.title{width:350px;margin-left:75px;display:inline-block;vertical-align:top;border:1px solid #ccc;padding:50px 25px;text-align:left;
+		border-radius:10px;box-shadow: 0 3px 6px #e6e6e6;
+	}
+.red{color:red;}
+.inputTitle{border:1px solid #ccc;width:250px;padding:10px;border-radius:3px;}
+.inputCon{margin:15px 0;border:1px solid #ccc;width:600px;padding:5px;min-height:200px;}
+.inputBox span{width:60px;display: inline-block;text-align: right;padding-right:15px;}
+.hiddens,.emails{margin-left:75px;color:red;margin-bottom:0px;margin-top:5px;}
+.inputBox{margin-bottom:15px;}
+.loginLogo{text-align:left;margin-bottom:25px;}
+.lineBlock{display:inline-block;zoom:1;*display:inline;font-size:12px;letter-spacing:normal;word-spacing:normal;vertical-align:top;}
+.lbBox{font-size:0px;*word-spacing:-1px;}
+ul{padding:0px;}
+.loginNav .acitive{font-size:18px;color:#ef3f22;}
+.loginNav li{padding:0 20px;line-height:24px;margin-bottom:20px;}
+.loginNav li a{color:#06a7e1;text-decoration:none;}
+.loginNav li:first-child{border-right:1px solid #ccc;}
+.forgotPass{margin-left:5px;text-decoration:none;color:#06a7e1;}
+
+	.outSide{width:1100px;margin:0 auto;position:relative;}
+	.loginLogo{text-align:left;margin-bottom:25px;}
+	.posting{width:800px;background-color:#f5f5f5;padding:10px 40px;border-radius:5px;}
+	.posting .inputTitle{width:100%;}
+	.posting .inputButt{margin-left:0px;}
+	.posting form{background-color:#fafafa;padding:10px;border:1px solid #dfdfdf;}
+	.inputCon{resize: none;width:100%;height:200px;margin:15px 0;border:1px solid #ccc;padding:10px;}
+	.inputButt{background-color:#ef3f22;color:white;border:0px;font-size:14px;font-weight:bold;padding:8px 30px;cursor:pointer;border-radius:3px;}
+	.inputButt:hover{background-color:#d31e00;}
+	.WXGZPT{margin-left:15px;}
+	ul{padding:0px;}
+	ul li{list-style-type:none;}
+	.messageBox{background-color:#f5f5f5;padding:20px;margin-bottom:25px;border-radius:3px;}
+	.messageBox li{padding:5px;border:1px solid #ccc;margin-top:-1px;background-color:#fff;}
+	.messageBox li .titles{width:690px;padding:5px 10px;color:#ef3f22;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+	.messageBox li .users{width:120px;padding:5px 10px;color:#06a7e1;}
+	.messageBox li .datas{width:125px;padding:5px;}
+	.messageBox li .delete{width:100px;text-align:center;padding:5px;color:red;text-decoration:none;}
+	.messageBox li:first-child >span{color:#333333!important;font-weight:bold;}
+	.messageBox li a:hover{color:#06a7e1;}
+	
+	.loginLogo form{float:right;}
+	.loginLogo .lineBlock{vertical-align:middle;}
+	ul{padding:0px;}
+	ul li{list-style-type:none;}
+	.messageCon{padding:15px;background-color:#f5f5f5;width:890px;}
+	.messageRightCon{width:150px;padding:0 10px 10px 10px;margin-left:10px;}
+	.messageRightCon img{max-width:100%;}
+	.messageCon >ul{background-color:#fff;margin-top:-1px;border:1px solid #ccc;}
+	.messageCon >form{margin-top:30px;}
+	.messageConTitle{font-size:18px;margin:0px;padding:10px 5px;border:1px solid #ccc;background-color:#fff;}
+	.messageConName{padding:15px;width:120px;text-align:center;}
+	.messageConName p{margin:0px;}
+	.messageConName .userHead{width:80px;height:80px;background-color:#ccc;margin:0 auto;margin-bottom:10px;}
+	.messageConTxt{padding:15px;width:680px;line-height:22px;}
+	.huifuM{position:relative;padding-bottom:20px;}
+	.huifuM .date{position:absolute;right:10px;bottom:5px;margin:0px;}
+	.listMessage{display:block;text-align:right;padding:5px;color:blue;text-decoration:none;color:#06a7e1;}
+	.userHead{background:url(../img/hade.jpg) no-repeat top center;}
+	.louzhu{background:url(../img/hades.jpg) no-repeat top center;}
+	.messageConTxt .delete{color:#ef3f22;text-decoration:none;}
+	.loginLogo .logout{float:right;}
+	.pageUL{text-align:center;}
+	.pageUL li{border:1px solid #ccc;margin:10px 5px;}
+	.pageUL li a{display: block;padding:5px 8px;text-decoration:none;color:#06a7e1;}
+	.pageUL li a:hover{background-color:#f2f2f2;color:red;}
+	.pageUL .active a{background-color:#333;color:white;}
+	.pageUL .active a:hover{background-color:#333;color:white;}
+	
+	input[name="logOut"]{border:0px;background-color:#fff;cursor:pointer;}
+	input[name="logOut"]:hover{color:red;}
+
+
+a{color:#06a7e1;}
+a:hover{color:blue;}
+.vipNav a{display:block;padding:5px 15px;}
+.bottom{background-color:#333;padding:20px 0px;text-align:center;color:#fff;margin-top:25px;}
+#s {
+  border: 1px solid #ececec;
+  color: #888;
+  margin-right: -1px;
+  padding: 5px;
+  width: 200px;
+}
+#searchsubmit {
+  background-color: #26ae90;
+  border-radius: 4px;
+  border: 1px solid #26ae90;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset, 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 13px;
+  line-height: 20px;
+  margin-bottom: 0;
+float:right;
+  padding: 2px 15px;
+  text-align: center;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  transition: background-color 0.3s ease 0s, border 0.3s ease 0s, color 0.3s ease 0s, opacity 0.3s ease-in-out 0s;
+  vertical-align: middle;
+}
+.sousuos{position:absolute;right:0px;top:40px;}
+.indexWX{position:absolute;top:85px;right:0px;width:175px;}
+.indexWX img{width:175px;position:fixed;top:85px;}
+
+.upFileImg{width:100px;height:100px;border:1px solid #ccc;}
+.upFile{opacity:0;width:100px;height:100px;}

@@ -1,0 +1,208 @@
+/*----------风格色----------*/
+@colorA:#000;           /*副色A*/
+@colorA1:#333;
+@colorA2:#666;
+@colorA3:#999;
+@colorA4:#ccc;
+@colorA5:#4f4f4f;
+@colorB:#4d82b8;           /*副色蓝色*/
+@colorB1:#2a537c;
+@colorO:#e3c800;
+@colorO1:#bca70a;
+@colorO2:#ff6600;
+@colorO3:#ff9900;
+@colorG:#60a917;
+@colorG1:#498b08;
+@colorG2:#f9fff0;
+@colorG3:#18aa00;
+@colorR:#ce352c;
+@colorR1:#ab1209;
+@colorR2:#fff0f0;
+
+@base-url:"../icon/icon_small.png";
+.icon(@L,@T){
+  background-image:url("@{base-url}"); 
+  background-repeat:no-repeat;
+  background-position:@arguments;
+}
+
+.error{color:@colorR;}
+/*颜色渐变*/
+.jb(@t:left,@c1:white,@c2:#127ed9){
+  background-image:-webkit-linear-gradient(to @t, @c1, @c2);
+  background-image:linear-gradient(to @t,@c1,@c2);
+}
+/*背景颜色*/
+.bgc(@c:#ffffff){background-color:@c;}
+.border(@l:1px,@t:1px,@r:1px,@b:1px,@c:#cccccc,@s:solid){
+  border-left-width:@l;
+  border-top-width:@t;
+  border-right-width:@r;
+  border-bottom-width:@b;
+  border-color:@c;
+  border-style:@s;
+}
+.radius(@radius: 2px){
+  border-radius: @radius;
+  -moz-border-radius: @radius;
+  -webkit-border-radius: @radius;
+}
+.shadow(@x: 0, @y: 0, @blur: 6px, @c: #ccc)
+{
+  box-shadow: @arguments;
+  -moz-box-shadow: @arguments;
+  -webkit-box-shadow: @arguments;
+}
+.button(@bgc:#666,@bdc:#ccc,@c:#fff,@t:8px,@l:15px,@hbgc:#333,@hbdc:#ccc,@hc:#fff){
+  border:1px solid @bdc;background-color:@bgc;color:@c;padding:@t @l;
+  &:hover{background-color:@hbgc;border-color:@hbdc;color:@hc;}
+}
+
+input[type=text],input[type=password]{padding:5px;.border();.radius();
+  &:focus{border-color:#0090eb;}
+}
+.empty{width:1px;height:100%;font-size:0px;vertical-align:middle;display:inline-block;*display:inline;*zoom:1;}
+
+
+//button
+
+.btn {
+    background-color: #fff;
+    border:1px solid @colorA4;
+    color: @colorA5;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 22px;
+    margin-bottom: 0;
+    padding: 4px 12px;
+    text-align: center;
+    vertical-align: middle;
+}
+.btn-primary {
+    background-color: @colorB;
+    border-color: @colorB;
+    color: #fff;
+    &:hover{
+      background-color: @colorB1;
+      border-color: @colorB1;
+    }
+}
+.btn-success {
+    background-color: @colorG;
+    border-color: @colorG;
+    color: #fff;
+    &:hover{
+      background-color: @colorG1;
+      border-color: @colorG1;
+    }
+}
+.btn-warning {
+    background-color: @colorO;
+    border-color: @colorO;
+    color: #fff;
+    &:hover{
+      background-color: @colorO1;
+      border-color: @colorO1;
+    }
+}
+.btn-orange {
+    background-color: @colorO3;
+    border-color: @colorO3;
+    color: #fff;
+    &:hover{
+      background-color: @colorO2;
+      border-color: @colorO2;
+    }
+}
+.btn-danger {
+    background-color: @colorR;
+    border-color: @colorR;
+    color: #fff;
+    &:hover{
+      background-color: @colorR1;
+      border-color: @colorR2;
+    }
+}
+.btn-inverse {
+    background-color: @colorA5;
+    border-color: @colorA5;
+    color: #fff;
+    &:hover{
+      background-color: @colorA1;
+      border-color: @colorA1;
+    }
+}
+.btn-error {
+    background-color: @colorA4;
+    border-color: @colorA4;
+    color: #fff;
+    cursor:no-drop;
+}
+.btn-link {
+    border-color: transparent;
+    border-radius: 0;
+    color: @colorB;
+    cursor: pointer;
+}
+//but大小
+.btn-large {
+    border-radius: 6px;
+    font-size: 17.5px;
+    padding: 11px 19px;
+}
+.btn-small {
+    border-radius: 3px;
+    font-size: 11.9px;
+    padding: 2px 10px;
+}
+.btn-mini {
+    border-radius: 3px;
+    font-size: 10.5px;
+    padding: 0 6px;
+}
+.btn-block {
+    box-sizing: border-box;
+    display: block;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+}
+
+.control-group,.controls{
+  &.warning{
+    .control-label,.help-block,.help-inline{color: @colorO;}
+    input,select,textarea{border-color: @colorO;}
+    .checkbox,.radio,input,select,textarea{color: @colorO;}
+  }
+  &.error{
+    .control-label,.help-block,.help-inline{color: @colorR;}
+    input,select,textarea{border-color: @colorR;}
+    .checkbox,.radio,input,select,textarea{color: @colorR;}
+  }
+  &.info{
+    .control-label,.help-block,.help-inline{color: @colorB;}
+    input,select,textarea{border-color: @colorB;}
+    .checkbox,.radio,input,select,textarea{color: @colorB;}
+  }
+  &.success{
+    .control-label,.help-block,.help-inline{color: @colorG;}
+    input,select,textarea{border-color: @colorG;}
+    .checkbox,.radio,input,select,textarea{color: @colorG;}
+  }
+}
+.help-inline {
+    display: inline-block;
+    padding-left: 5px;
+    vertical-align: middle;
+}
+.help-block {
+    display: block;
+    margin-bottom: 10px;
+}
+
+
+
+
+
+
