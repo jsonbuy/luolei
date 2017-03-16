@@ -1,16 +1,17 @@
-define(['jquery'],function ($) {
+define(['jquery','app/common'],function ($,common) {
+    var basic = '/basic/web';
 	function orderAjax(){
 	    var id = $('#uid').val();
         var qty = $('#quantity').val();
 		$.ajax({
-             url : '/basic/web/index.php?r=order/orderajax',
+             url : basic + '/index.php?r=order/orderajax',
              timeout : 10000,
              type : 'get',
              data : {id:id,qty:qty,},
              dataType : 'json',
              success : function(data) {
                  if(data.ret == 1){
-                     window.location.href = '/basic/web/index.php?r=order/order';
+                     window.location.href = basic + '/index.php?r=order/order';
                  }else if(data.ret == 2){
                      alert('请登录');
                  }
@@ -35,31 +36,9 @@ define(['jquery'],function ($) {
         $('.saveTotal').text(savePri.toFixed(2));
         $('.allTotal').text(totalPri.toFixed(2));
 	};
-	function getCookie(c_name)
-    {
-        if (document.cookie.length>0)
-          {
-          c_start=document.cookie.indexOf(c_name + "=")
-          if (c_start!=-1)
-            { 
-            c_start=c_start + c_name.length+1 
-            c_end=document.cookie.indexOf(";",c_start)
-            if (c_end==-1) c_end=document.cookie.length
-            return unescape(document.cookie.substring(c_start,c_end))
-            } 
-          }
-        return ""
-    }
-    function setCookie(c_name,value,expiredays)
-    {
-        var exdate=new Date()
-        exdate.setDate(exdate.getDate()+expiredays)
-        document.cookie=c_name+ "=" +escape(value)+
-        ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
-    }
     function orderList(){
          $.ajax({
-             url : '/basic/web/index.php?r=order/orderlist',
+             url : basic + '/index.php?r=order/orderlist',
              timeout : 10000,
              type : 'get',
              dataType : 'html',
@@ -81,7 +60,7 @@ define(['jquery'],function ($) {
         var del = $('.delOrder');
         var check = $('.checkInput').children('input');
         add.click(function(){
-            var plist = JSON.parse(getCookie('plist'));
+            var plist = JSON.parse(common.getCookie('plist'));
             var clickData = $(this).data('uid');
             for(var i = 0; i < plist.length; i++){
                 if(plist[i].uid == clickData){
@@ -89,11 +68,11 @@ define(['jquery'],function ($) {
                 }
             }
             plist = JSON.stringify(plist);
-            setCookie('plist',plist,360);
+            common.setCookie('plist',plist,360);
             orderList();
         });
         sub.click(function(){
-            var plist = JSON.parse(getCookie('plist'));
+            var plist = JSON.parse(common.getCookie('plist'));
             var clickData = $(this).data('uid');
             for(var i = 0; i < plist.length; i++){
                 if(plist[i].uid == clickData && parseInt(plist[i].qty) > 1){
@@ -101,11 +80,11 @@ define(['jquery'],function ($) {
                 }
             }
             plist = JSON.stringify(plist);
-            setCookie('plist',plist,360);
+            common.setCookie('plist',plist,360);
             orderList();
         });
         del.click(function(){
-            var plist = JSON.parse(getCookie('plist'));
+            var plist = JSON.parse(common.getCookie('plist'));
             var clickData = $(this).data('uid');
             for(var i = 0; i < plist.length; i++){
                 if(plist[i].uid == clickData){
@@ -113,11 +92,11 @@ define(['jquery'],function ($) {
                 }
             }
             plist = JSON.stringify(plist);
-            setCookie('plist',plist,360);
+            common.setCookie('plist',plist,360);
             orderList();
         });
         check.click(function(){
-            var plist = JSON.parse(getCookie('plist'));
+            var plist = JSON.parse(common.getCookie('plist'));
             var clickData = $(this).data('uid');
             for(var i = 0; i < plist.length; i++){
                 if(plist[i].uid == clickData){
@@ -129,7 +108,7 @@ define(['jquery'],function ($) {
                 }
             }
             plist = JSON.stringify(plist);
-            setCookie('plist',plist,360);
+            common.setCookie('plist',plist,360);
             orderList();
         });
     }
@@ -144,7 +123,7 @@ define(['jquery'],function ($) {
 	            alert('请选择支付方式');
 	            return;
 	        }
-	        if($('.disPriceInt').length > 0 && getCookie('payment')){
+	        if($('.disPriceInt').length > 0 && common.getCookie('payment')){
 	            var id = '';
 	            for(var i = 0; i < $('.selectProduct').length; i++){
 	                id += $('.selectProduct').eq(i).data('uid')+'-'+$('.selectProduct').eq(i).parents('.orderCon').find('.payNumber').val()+',';
@@ -152,16 +131,17 @@ define(['jquery'],function ($) {
 	            id = id.substring(0,id.length-1);
 	            var user = $('#orderUser').val();
 	            var address = $('.address').text();
-	            var payment = getCookie('payment');
+	            var payment = common.getCookie('payment');
 	            var priceTotal = $('.priceTotal').text();
 	            $.ajax({
-                     url : '/basic/web/index.php?r=order/createorder',
+                     url : basic + '/index.php?r=order/createorder',
                      timeout : 10000,
                      type : 'get',
                      data : {id:id,user:user,address:address,payment:payment,priceTotal:priceTotal},
                      dataType : 'json',
                      success : function(data) {
                          if(data.ret == 1){
+                             common.delCookie('plist');
                              window.location = "index.php?r=order/orderpay&orderNumber="+data.orderNumber;
                          }
                      }
@@ -182,7 +162,7 @@ define(['jquery'],function ($) {
 	                checkDefault = 1;
 	            }
     	        $.ajax({
-                     url : '/basic/web/index.php?r=order/addadress',
+                     url : basic + '/index.php?r=order/addadress',
                      timeout : 10000,
                      type : 'get',
                      data : {firstName:firstName,lastName:lastName,country:country,address:address,city:city,phoneNumber:phoneNumber,checkDefault:checkDefault},
@@ -197,7 +177,7 @@ define(['jquery'],function ($) {
             var id = $(this).data('id');
             var _this = $(this);
             $.ajax({
-                 url : '/basic/web/index.php?r=order/deletdress',
+                 url : basic + '/index.php?r=order/deletdress',
                  timeout : 10000,
                  type : 'get',
                  data : {id:id},
@@ -229,7 +209,7 @@ define(['jquery'],function ($) {
             var id = $(this).next().data('id');
             var _this = $(this);
             $.ajax({
-                 url : '/basic/web/index.php?r=order/updatadress',
+                 url : basic + '/index.php?r=order/updatadress',
                  timeout : 10000,
                  type : 'get',
                  data : {id:id},
@@ -243,10 +223,10 @@ define(['jquery'],function ($) {
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
             var payment = $(this).data('key');
-            setCookie('payment',payment,360);
+            common.setCookie('payment',payment,360);
         });
-        if(getCookie('payment')){
-            var keyCookie = getCookie('payment');
+        if(common.getCookie('payment')){
+            var keyCookie = common.getCookie('payment');
             for(var i = 0; i < $('.payment').children('li').length; i++){
                 if($('.payment').children('li').eq(i).data('key') == keyCookie){
                     $('.payment').children('li').removeClass('active');

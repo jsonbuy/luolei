@@ -30,30 +30,28 @@ class ProductController extends Controller
 		$product = $model->productInf();
 		$productinf = $model->productDetails();
 		$productImg = $model->productImgArr();
+        $productSpuData = $model->productDataspu();
+        $productDataInf = $model->productDataInf();
+        $productInfo = array();
+        $productData = array();
+        foreach ($productSpuData as $key => $value) {
+            $productInfo[$key] = $value;
+            $productInfo[$key]['data'] = array($value['product_class']=>$value['product_data']);
+            unset($productInfo[$key]['product_class']);
+            unset($productInfo[$key]['product_data']);
+            if($key > 0 && in_array($productSpuData[$key]['sku'], $productInfo[$key-1])){
+                $productInfo[$key-1]['data'] = array_merge($productInfo[$key-1]['data'],$productInfo[$key]['data']);
+                array_push($productData,$productInfo[$key-1]);
+            }
+        }
 		$productImg = explode(",",$productImg['imgarr']);
         return $this->render('product',
         [
-        	'product'       => $product ,
-        	'productinf'    => $productinf,
-        	'productImg'    => $productImg
-        ]);
-    }
-	/*==============================================================
-	  *函数名：  actionProduct
-	  *作者：    json
-	  *日期：    2015-03-19
-	  *功能：	产品页面展示
-	  *参数：    
-	  *返回值：  
-	  *修改记录：
-	===============================================================*/
-    public function actionProductlist()
-    {
-    	$model      = new ProductForm();
-		$product    = $model->ProductList();
-        return $this->render('productList',
-        [
-        	'product'    => $product,
+        	'product'         => $product ,
+        	'productinf'      => $productinf,
+        	'productImg'      => $productImg,
+        	'productSpuData'  => $productData,
+        	'productDataInf'  => $productDataInf
         ]);
     }
 

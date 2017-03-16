@@ -34,19 +34,58 @@ use app\ancdone\code\AncHelper;
 	</div>
 	<div class="lineBlock proInf">
 		<h1><?php echo $product['title']?></h1>
-		<span class="sku"> ( SKU: <?php echo $product['sku']?> )</span>
-		<div class="share">
+		<span> ( SKU: <i class="sku"><?php echo $product['sku']?></i> )</span>
+		<!-- <div class="share">
 			<span>Share:</span>
 			<div class="lineBlock">
             		<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-532965a902fc0807" async="async"></script>
 					<div class="addthis_sharing_toolbox"> </div>
             	</div>
-          	</div>
+         </div> -->
 		<div class="infPrice">
 			Price: 
 			<span class="lineBlock" id="currency">US$</span> 
 			<span class="lineBlock" id="price"><?php echo $product['price']?></span>
 		</div>
+		
+        <?php
+          $dataType = array();
+          $dataArr = array();
+          foreach ($productSpuData as $key => $value) {
+              foreach ($value['data'] as $key1 => $value1) {
+                  if(!in_array($key1,$dataType)){
+                      array_push($dataType,$key1);
+                  }
+              }
+          }
+          foreach ($dataType as $key => $value) {
+        ?>
+                <p class="attribute_name" data_key="<?php echo $value?>">
+                    <?php echo $value; ?>
+                </p>
+                <ul class="lbUl attrBox">
+         <?php
+          foreach ($productSpuData as $key1 => $value1) {
+              if(!in_array($value1['data'][$value],$dataArr)){
+                  array_push($dataArr,$value1['data'][$value]);
+         ?>
+                   <li data-attr-value="<?php echo $value1['data'][$value]?>" class="
+                   <?php
+                        if($productDataInf[$key]['product_data'] == $value1['data'][$value]){
+                            echo 'active';
+                        }
+                   ?>
+                   ">
+                       <?php echo $value1['data'][$value]?>
+                   </li>
+          <?php
+              }
+          }
+          ?>
+                </ul>
+        <?php
+          }
+        ?>
 		<div class="infPrice">
 			Qty: 
 			<span class="lineBlock" id="price"><?php echo $product['qty']?></span>
@@ -74,3 +113,6 @@ use app\ancdone\code\AncHelper;
 		<?php echo nl2br($productinf['proinf'])?>
 	</div>
 </div>
+<script>
+    var mainContent = <?php echo json_encode($productSpuData)?>;
+</script>

@@ -5,7 +5,7 @@ requirejs.config({
     }
 });
 
-require(['jquery','app/order'],function($,order){
+require(['jquery','app/common','app/order'],function($,common,order){
 	order.orderPrice();
 	order.orderListAjax();
     order.addDress();
@@ -13,4 +13,5 @@ require(['jquery','app/order'],function($,order){
     order.defaultDress();
     order.paymentPassword();
     order.orderPay();
+    common.evens();
 })

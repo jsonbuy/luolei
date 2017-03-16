@@ -164,34 +164,62 @@
 		===============================================================*/
 		public function ProductProinf($proinf){
 			$connection = \Yii::$app->db;
-			$insert = $connection->createCommand()
-			->insert('ancadmin_product',array(
-				'title'        => $proinf['title'],
-				'sku'          => $proinf['sku'],
-				'price'        => $proinf['price'],
-                'disprice'     => $proinf['disprice'],
-				'freeShipping' => $proinf['freeShipping'],
-				'qty'          => $proinf['qty'],
-			))
-			->execute();
-			$insertID = $connection->getLastInsertID();
-			
-			$response = FALSE;
-			if($insertID>0){
-				$params = array('uid'=>$insertID,'productInf'=>$proinf['productInf']);
-				$result = $this->ProductDetails($params);
-				
-				$imgArr = array('uid'=>$insertID,'imgArray'=>$proinf['imgArray']);
-				$imgresult = $this->ProductImgArray($imgArr);
-				if($result){
-					$response = TRUE;
-					header('Location:index.php?r=ancadmin/index&page=product');
-					exit;
-				}else{
-					//如果不成功 删除当前id
-				}
-			}
-			return $response;
+            
+            $skuArr   = $proinf['sku'];
+            $defaults = $proinf['default'];
+            $skuArr = explode(',', $skuArr);
+            $spu = explode('-', $skuArr[0]);
+            $skuData = explode(',', $proinf['skuData']);
+            foreach ($skuArr as $key => $value) {
+                if($key == $defaults){
+                    $default = 1;
+                }else{
+                    $default = 0;
+                };
+    			$insert = $connection->createCommand()
+    			->insert('ancadmin_product',array(
+    				'title'        => $proinf['title'],
+    				'sku'          => $value,
+                    'spu'          => $spu[0],
+    				'price'        => $proinf['price'],
+                    'default'      => $default,
+                    'disprice'     => $proinf['disprice'],
+    				'freeShipping' => $proinf['freeShipping'],
+    				'qty'          => $proinf['qty'],
+    			))
+    			->execute();
+    			$insertID = $connection->getLastInsertID();
+                
+                $skuDatas = explode('|', $skuData[$key]);
+                foreach ($skuDatas as $key1 => $value1) {
+                    $skuDatas1 = explode(':', $skuDatas[$key1]);
+                    $insert = $connection->createCommand()
+                    ->insert('ancadmin_productdata',array(
+                        'product_sku_id'        => $insertID,
+                        'product_class'         => $skuDatas1[0],
+                        'product_data'          => $skuDatas1[1],
+                    ))
+                    ->execute();
+                }
+    			
+    			//$response = FALSE;
+    			if($insertID > 0){
+    				$params = array('uid'=>$insertID,'productInf'=>$proinf['productInf']);
+    				$result = $this->ProductDetails($params);
+    				
+    				$imgArr = array('uid'=>$insertID,'imgArray'=>$proinf['imgArray']);
+    				$imgresult = $this->ProductImgArray($imgArr);
+    			}
+            }
+            
+            if($result){
+                //$response = TRUE;
+                header('Location:index.php?r=ancadmin/index&page=product');
+                exit;
+            }else{
+                //如果不成功 删除当前id
+            }
+			//return $response;
 		}
 		/*==============================================================
 		  *函数名：  ProductProinf
@@ -244,7 +272,7 @@
 			$sku = $proinf['sku'];
 			$sku = 'sku=\''.$sku.'\'';
 			$command = (new \yii\db\Query())
-			->select(['id','title','sku','price','disprice','qty','freeShipping','imgarr','proinf'])
+			->select(['id','title','sku','spu','price','disprice','qty','freeShipping','imgarr','proinf'])
 			->from('ancadmin_product')
 			->leftJoin('ancadmin_productimgarr', 'ancadmin_productimgarr.uid = ancadmin_product.id')
 			->leftJoin('ancadmin_productinf', 'ancadmin_productinf.uid = ancadmin_product.id')
@@ -264,12 +292,14 @@
 		public function updateProduct($proinf){
 			$id = $proinf['id'];
 			$id = 'id=\''.$id.'\'';
+            $spu = 'spu=\''.$proinf['spu'].'\'';
 			$connection = \Yii::$app->db;
 			$update = $connection->createCommand()
 			->update('ancadmin_product', 
 				[
 					'title' 	   => $proinf['title'],
 					'sku'          => $proinf['sku'],
+                    'spu'          => $proinf['spu'],
 					'price'        => $proinf['price'],
                     'disprice'     => $proinf['disprice'],
 					'qty'          => $proinf['qty'],
@@ -277,6 +307,25 @@
 				$id
 			)
 			->execute();
+            //==========修改 spu==============//
+            if($proinf['defaultSKU'] == 1){
+                $update = $connection->createCommand()
+                ->update('ancadmin_product', 
+                    [
+                        'default'          => 0,
+                    ], 
+                    $spu
+                )
+                ->execute();
+                $update = $connection->createCommand()
+                ->update('ancadmin_product', 
+                    [
+                        'default'          => 1,
+                    ], 
+                    $id
+                )
+                ->execute();
+            };
 			//==========修改 产品详情==============//
 			$params = array(
 				'uid'         => $proinf['id'],
@@ -341,11 +390,91 @@
 			return $update;
 		}
 		
-		
-		
-		
-		
-		
+		/*==============================================================
+          *函数名：  SelectClass
+          *作者：    json
+          *日期：    2015-03-19
+          *功能：   选择商品类目
+          *参数：    
+          *返回值：
+          *修改记录：
+        ===============================================================*/
+        public function SelectClass(){
+            $command = (new \yii\db\Query())
+            ->select(['id','class','short'])
+            ->from('ancadmin_product_1_class')
+            ->all();
+            return $command;
+        }
+        /*==============================================================
+          *函数名：  SelectBrand
+          *作者：    json
+          *日期：    2015-03-19
+          *功能：   选择商品品牌
+          *参数：    
+          *返回值：
+          *修改记录：
+        ===============================================================*/
+        public function SelectBrand($update){
+            $connection = \Yii::$app->db;
+            $sql="SELECT * FROM ancadmin_product_2_brand a left join ancadmin_product_2_brand_id b on a.brand=b.id WHERE a.pid=".$update['id'];
+            $command = $connection->createCommand($sql)
+            ->queryAll();
+            return $command;
+        }
+        /*==============================================================
+          *函数名：  SelectClassify
+          *作者：    json
+          *日期：    2015-03-19
+          *功能：   选择商品品牌
+          *参数：    
+          *返回值：
+          *修改记录：
+        ===============================================================*/
+        public function SelectClassify($update){
+            $connection = \Yii::$app->db;
+            $sql="SELECT * FROM ancadmin_product_3_classify a left join ancadmin_product_3_classify_id b on a.classify=b.id WHERE a.pid=".$update['id'];
+            $command = $connection->createCommand($sql)
+            ->queryAll();
+            return $command;
+        }
+        /*==============================================================
+          *函数名：  SelectAttribute
+          *作者：    json
+          *日期：    2015-03-19
+          *功能：   选择商品属性
+          *参数：    
+          *返回值：
+          *修改记录：
+        ===============================================================*/
+        public function SelectAttribute($update){
+            $connection = \Yii::$app->db;
+            $sql="SELECT * FROM ancadmin_product_4_attribute a left join ancadmin_product_4_attribute_id b on a.class=b.id WHERE a.pid='".$update['id']."'";
+            $command = $connection->createCommand($sql)
+            ->queryAll();
+            // $command = (new \yii\db\Query())
+            // ->select(['pid','class','attribute'])
+            // ->from('ancadmin_product_4_attribute')
+            // ->where(['pid' => $update])
+            // ->all();
+            return $command;
+        }
+        /*==============================================================
+          *函数名：  SelectSkulast
+          *作者：    json
+          *日期：    2015-03-19
+          *功能：   返回数据库最后一条记录
+          *参数：    
+          *返回值：
+          *修改记录：
+        ===============================================================*/
+        public function SelectSkulast(){
+            $connection = \Yii::$app->db;
+            $sql="select * from ancadmin_product order by id desc limit 1";
+            $command = $connection->createCommand($sql)
+            ->queryAll();
+            return $command;
+        }
 		
 		
 		

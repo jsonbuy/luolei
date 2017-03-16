@@ -5,6 +5,7 @@ requirejs.config({
     }
 });
 
-require(['jquery','app/module'],function($,module){
+require(['jquery','app/common','app/module'],function($,common,module){
 	module.banner();
+    common.evens();
 })

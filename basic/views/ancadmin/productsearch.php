@@ -51,10 +51,17 @@ use app\ancdone\code\AncHelper;
 			<input type="hidden" name="id" value="<?php echo $productProinf['id']; ?>">
 		</td>
 	</tr>
+    <tr>
+        <td>SPU</td>
+        <td>
+            <input name="spu" type="text" value="<?php echo $productProinf['spu']; ?>" />
+        </td>
+    </tr>
 	<tr>
 		<td>SKU</td>
 		<td>
 			<input name="sku" type="text" value="<?php echo $productProinf['sku']; ?>" />
+			<input name="defaultSKU" id="defaultSKU" type="checkbox" />设置为默认SKU
 		</td>
 	</tr>
 	<tr>
@@ -117,7 +124,7 @@ use app\ancdone\code\AncHelper;
         flash_swf_url: 'plupload/Moxie.swf', //flash文件地址
         silverlight_xap_url: 'plupload/Moxie.xap', //silverlight文件地址
         filters: {
-            max_file_size: '500kb', //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
+            max_file_size: '1000kb', //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
             mime_types: [//允许文件上传类型
                 {title: "files", extensions: "jpg,png,gif"}
             ]

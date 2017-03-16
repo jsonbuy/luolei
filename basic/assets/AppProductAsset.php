@@ -24,6 +24,7 @@ class AppProductAsset extends AssetBundle
     public $js = [
     	'js/require.js',
     	'js/product.js',
+        'js/buy.js',
     ];
     // public $depends = [
         // 'yii\web\YiiAsset',

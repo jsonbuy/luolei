@@ -5,8 +5,11 @@ requirejs.config({
     }
 });
 
-require(['jquery','app/ancAdmin'/*,'/basic/ancdone/upload/plupload.full.min.js'*/],function($,admin){
-	
+require(['jquery','app/common','app/ancAdmin','descartes'],function($,common,admin){
+	admin.events();
+	admin.eventAjax();
+	admin.onClicks();
+    common.evens();
 	$("#login").click(function(){
 		admin.ancLogin();
 	})

@@ -5,6 +5,7 @@ use app\ancdone\code\AncHelper;
 	<?php
 		foreach ($product as $key => $value) {
 			$productimg    = explode(",",$value["imgarr"]);
+            if($value['default'] == 1){
 	?>
 	<li>
 		<a href="index.php?r=product/product&id=<?php echo $value['id']?>"><img width="230" height="230" src="<?php echo AncHelper::settingPaths().'productImg/'.$productimg[0]?>" /></a>
@@ -16,6 +17,7 @@ use app\ancdone\code\AncHelper;
 		<p class="freeShipping">Free shipping</p>
 	</li>
 	<?php
+            }
 		}
 	?>
 </ul>

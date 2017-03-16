@@ -105,10 +105,26 @@ function codes(password,paErrHtml,paErrCss){
 	}
 }
 
+    function getCookie(c_name)
+    {
+        if (document.cookie.length>0)
+          {
+          c_start=document.cookie.indexOf(c_name + "=")
+          if (c_start!=-1)
+            { 
+            c_start=c_start + c_name.length+1 
+            c_end=document.cookie.indexOf(";",c_start)
+            if (c_end==-1) c_end=document.cookie.length
+            return unescape(document.cookie.substring(c_start,c_end))
+            } 
+          }
+        return ""
+    }
 function strFun(fn) {
     var Fn = Function;  //一个变量指向Function，防止有些前端编译工具报错
     return new Fn('return ' + fn)();
 }
+
 $(function(){
 	$("#login").click(function(){
 		var email = $('input[name="user"]').val();
@@ -120,7 +136,7 @@ $(function(){
 			dataType : 'json',
 			success : function(result){
 				if(result.status==1){
-					window.location="index.php?r=vipspark/message";
+					window.location = getCookie('LOGNURL');
 				}else if(result.status==0){
 					$('input[name="pass"]').siblings(".help-block").text("用户名或密码不正确");
 					$('.controls').addClass('error');

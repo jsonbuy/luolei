@@ -12,9 +12,10 @@ require.config({
 　　　　　　exports: 'jQuery.fn.CloudZoom'
 　　　　}
 　　}
-})
+});
 
-require(['jquery','productImg','app/order'],function($,img,order){
+require(['jquery','app/common','productImg','app/order'],function($,common,img,order){
+    common.evens();
     $('.buyNow').click(function(){
         order.orderAjax();
     })

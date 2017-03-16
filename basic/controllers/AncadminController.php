@@ -86,7 +86,9 @@ class AncadminController extends Controller
 			$editbanner = $model->EdiShowBanner();
     		$indexPage = $this->renderPartial('indexBanner', ['model' => $model,'editbanner' => $editbanner]);
     	}elseif($page == 'product'){
-    		$indexPage = $this->renderPartial('product', ['model' => $model]);
+    	    $productClass = $model -> SelectClass();
+            $skuId = $model -> SelectSkulast();
+    		$indexPage = $this->renderPartial('product', ['productClass' => $productClass, 'skuId' => $skuId]);
     	}elseif($page == 'productsearch'){
     		$productProinf ='';
     		if(isset($_GET['sku'])){
@@ -101,6 +103,99 @@ class AncadminController extends Controller
 		$data['indexPage'] = $indexPage;
 		
         return $this->render('index',$data);
+    }
+    /*==============================================================
+      *函数名：  actionSelectbrand
+      *作者：    json
+      *日期：    2015-03-19
+      *功能：  选择属性
+      *参数：    
+      *返回值：
+      *修改记录：
+    ===============================================================*/
+    public function actionSelectbrand(){
+        $postInfo = \Yii::$app->request->post();
+        $model = new AncadminForm();
+        $update = array();
+        $update['id']     = $postInfo['id'];
+        $select = $model->SelectBrand($update);
+        $class = 'brand';
+        $models = 'model';
+        $data = $this->renderPartial('selectclass', ['select' => $select, 'class' => $class, 'models' => $models]);
+        if($select){
+            return json_encode(array('ret' => 1, 'data' => $data));
+        }else{
+            return json_encode(array('ret' => 0));
+        }
+    }
+    /*==============================================================
+      *函数名：  actionSelectclassify
+      *作者：    json
+      *日期：    2015-03-19
+      *功能：  选择属性
+      *参数：    
+      *返回值：
+      *修改记录：
+    ===============================================================*/
+    public function actionSelectclassify(){
+        $postInfo = \Yii::$app->request->post();
+        $model = new AncadminForm();
+        $update = array();
+        $update['id']     = $postInfo['id'];
+        $select = $model->SelectClassify($update);
+        $class = 'classify';
+        $models = 'model';
+        $data = $this->renderPartial('selectclass', ['select' => $select, 'class' => $class, 'models' => $models]);
+        if($select){
+            return json_encode(array('ret' => 1, 'data' => $data));
+        }else{
+            return json_encode(array('ret' => 0));
+        }
+    }
+    /*==============================================================
+      *函数名：  actionSelectclassify
+      *作者：    json
+      *日期：    2015-03-19
+      *功能：  选择属性
+      *参数：    
+      *返回值：
+      *修改记录：
+    ===============================================================*/
+    public function actionSelectmodel(){
+        $postInfo = \Yii::$app->request->post();
+        $model = new AncadminForm();
+        $update = array();
+        $update['id'] = $postInfo['id'];
+        $select = $model->SelectModel($update);
+        $class = 'model';
+        $data = $this->renderPartial('selectclass', ['select' => $select, 'class' => $class, 'models' => $class]);
+        if($select){
+            return json_encode(array('ret' => 1, 'data' => $data));
+        }else{
+            return json_encode(array('ret' => 0));
+        }
+    }
+    /*==============================================================
+      *函数名：  actionSelectattribute
+      *作者：    json
+      *日期：    2015-03-19
+      *功能：  选择属性
+      *参数：    
+      *返回值：
+      *修改记录：
+    ===============================================================*/
+    public function actionSelectattribute(){
+        $postInfo = \Yii::$app->request->post();
+        $model = new AncadminForm();
+        $update = array();
+        $update['id'] = $postInfo['id'];
+        $select = $model->SelectAttribute($update);
+        $data = $this->renderPartial('selectattribute', ['select' => $select]);
+        if($select){
+            return json_encode(array('ret' => 1, 'data' => $data));
+        }else{
+            return json_encode(array('ret' => 0));
+        }
     }
 	/*==============================================================
 	  *函数名：  actionUpdatebanner
@@ -226,17 +321,18 @@ class AncadminController extends Controller
 	===============================================================*/
 	public function actionProinf(){
 		$postInfo = \Yii::$app->request->post();
-		$model = new AncadminForm();
-		
+		$model    = new AncadminForm();
 		$proinf = array();
 		$proinf['title']        = $postInfo['title'];
-		$proinf['sku']          = $postInfo['sku'];
+		$proinf['sku']          = $postInfo['skuArr'];
 		$proinf['price']        = $postInfo['price'];
         $proinf['disprice']     = $postInfo['disprice'];
+        $proinf['default']      = $postInfo['default'];
 		$proinf['freeShipping'] = '0';
 		$proinf['qty']          = $postInfo['qty'];
 		$proinf['productInf']   = $postInfo['productInf'];
 		$proinf['imgArray']     = $postInfo['imgArray'];
+        $proinf['skuData']      = $postInfo['skuData'];
 		
 		$productProinf = $model->ProductProinf($proinf);
 	}
@@ -270,9 +366,15 @@ class AncadminController extends Controller
 		$postInfo = \Yii::$app->request->post();
 		$model = new AncadminForm();
 		
-		$proinf = array();
-		$proinf['id']          = $postInfo['id'];
+        $proinf = array();
+        if(isset($postInfo['defaultSKU'])){
+            $proinf['defaultSKU'] = 1;
+        }else{
+            $proinf['defaultSKU'] = 0;
+        }
+		$proinf['id']           = $postInfo['id'];
 		$proinf['title']        = $postInfo['title'];
+        $proinf['spu']          = $postInfo['spu'];
 		$proinf['sku']          = $postInfo['sku'];
 		$proinf['price']        = $postInfo['price'];
         $proinf['disprice']     = $postInfo['disprice'];

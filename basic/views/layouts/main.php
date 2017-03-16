@@ -12,6 +12,7 @@ use app\assets\AppVipsparkAsset;
 use app\assets\AppUserAsset;
 use app\assets\AppAncadminAsset;
 use app\assets\AppProductAsset;
+use app\assets\AppProductlistAsset;
 use app\assets\AppOrderAsset;
 
 
@@ -24,6 +25,8 @@ if($this->context->id=='vipspark'||$this->context->id=='user'){
 	AppAncadminAsset::register($this);
 }elseif($this->context->id=='product'){
 	AppProductAsset::register($this);
+}elseif($this->context->id=='productlist'){
+    AppProductlistAsset::register($this);
 }elseif($this->context->id=='order'){
     AppOrderAsset::register($this);
 }elseif($this->context->id='login'){

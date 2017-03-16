@@ -51,8 +51,8 @@ define(['jquery'],function ($) {
 			data : {email:email,pw:pw},
 			dataType : 'json',
 			success : function(result){
-				if(result.status==1){
-					window.location="index.php?r=ancadmin/index&page=index";
+				if(result.status == 1){
+					window.location = "index.php?r=ancadmin/index&page=index";
 				}else if(result.status==0){
 					$('input[name="pass"]').siblings(".help-block").text("用户名或密码不正确");
 					$('.controls').addClass('error');
@@ -175,7 +175,168 @@ define(['jquery'],function ($) {
 			// }
 		// })
 	}
-    
+	function ClearNullArr(arr){ //去除数组中的空元素
+        for(var i=0,len=arr.length;i<len;i++){
+            if(!arr[i]||arr[i]==''||arr[i] === undefined){
+                arr.splice(i,1); 
+                len--; 
+                i--; 
+            } 
+        } 
+        return arr; 
+    } 
+	function onClicks(){
+        $(document).on('click','.createSKU',function(){
+            var arr = [];
+            for(var i = 0; i < $('.productCheckbox').length; i++){
+                var box = $('.productCheckbox').eq(i).children('.active');
+                var arr1 = [];
+                for(var k = 0; k < box.length; k++){
+                    arr1.push(box.eq(k).data('att'));
+                }
+                arr.push(arr1);
+            }
+            arr = ClearNullArr(arr);
+            var r = multiCartesian(arr,true);
+            var html = "<span class='spuSpan lineBlock'>SPU</span><span class='spuDefault lineBlock'>DEFAULT</span><span class='skuSpan lineBlock'>SKU</span><span class='skuDelete lineBlock'>操作</span><ul>";
+            var skustart = '';
+            var spustart = '';
+            var classData = '';
+            var skuArr = '';
+            var skuID = $('.skuID').data('skuid') + 1;
+            for(var i = 0; i < $('.productEvent').length; i++){
+                skustart += $('.productEvent').eq(i).children('.state').data('att');
+                spustart += $('.productEvent').eq(i).children('.state').data('att') + '-';
+                classData += $('.productEvent').eq(i).children('.state').data('att')+',';
+            }
+            for(var i = 0; i < r.length; i++){
+                skuArr += skustart + skuID + '-' + r[i] + ',';
+                if(i == 0){
+                    html += "<li class='active'>";
+                }else{
+                    html += "<li>";
+                }
+                html += "<span class='spuSpan lineBlock'>"+ spustart + skuID +"</span><span class='spuDefault lineBlock'>";
+                if(i == 0){
+                    html += "<i class='defShow'>默认SKU</i>";
+                }else{
+                    html += "<i class='defShow'>默认SKU</i>";
+                }
+                html += "</span><span class='skuSpan lineBlock'>"+ skustart + skuID + '-' + r[i] +"</span>";
+                html += "<span class='skuDelete lineBlock'>删除</span>";
+                html += "</li>";
+            }
+            skuArr = skuArr.substring(0 , skuArr.length-1);
+            html += "</ul><input id='skuArr' name='skuArr' type='hidden' value='"+ skuArr +"'>";
+            
+            
+            var arrVal = [];
+            for(var i = 0; i < $('.productCheckbox').length; i++){
+                var box = $('.productCheckbox').eq(i).children('.active');
+                var arr2 = [];
+                for(var k = 0; k < box.length; k++){
+                    arr2.push(box.eq(k).data('val'));
+                }
+                arrVal.push(arr2);
+            }
+            arrVal = ClearNullArr(arrVal);
+            var skuDataArrs = multiCartesian(arrVal,false).join(' ');
+            var skuDataArrs   = skuDataArrs.split(' ');
+            var skuDataVals = "";
+            for(var i = 0; i < skuDataArrs.length; i++){
+                vas = skuDataArrs[i].split(',');
+                for(var k = 0; k < vas.length; k++){
+                    var nas = $('.attributeP').eq(k).data('val');
+                    skuDataVals += nas + ":" + vas[k];
+                    if(k < vas.length - 1){
+                        skuDataVals += "|"
+                    }
+                }
+                if(i < skuDataArrs.length - 1){
+                    skuDataVals += ","
+                }
+            }
+            html += '<input id="skuData" name="skuData" type="hidden" value="'+ skuDataVals +'">';
+            $('.creatSKU').html(html);
+        })
+        $(document).on('click','.skuDelete',function(){
+            var skuarr = $('#skuArr').val();
+            var skuData = $('#skuData').val();
+            var _index = $(this).parent('li').index();
+                skuarr = skuarr.split(',');
+                skuarr.splice(_index,1);
+                $('#skuArr').val(skuarr);
+                
+                skuData = skuData.split(',');
+                skuData.splice(_index,1);
+                $('#skuData').val(skuData);
+            $(this).parent('li').remove();
+        })
+        $(document).on('click', '.defShow', function(){
+            var _index = $(this).parents('li').index();
+            $(this).parents('li').addClass('active');
+            $(this).parents('li').siblings().removeClass('active');
+            $('input[name=default]').val(_index);
+        })
+        $(document).on('click', '.imgRadio', function(){
+            $('.imgRadio').removeClass('active');
+            $('.imgDefault').val('0');
+            $(this).addClass('active');
+            $(this).siblings('.imgDefault').val('1');
+        })
+	}
+    function events(){
+        $('.productEvent li').click(function(){
+            $(this).addClass('active');
+            $(this).siblings().removeClass('active');
+            $(this).siblings().removeClass('state');
+            $(this).parents('tr').nextAll('.brandTR').hide();
+        });
+        $('.productCheckbox li').click(function(){
+            $(this).toggleClass('active');
+        });
+    }
+    function classAjax(_this,id,url){
+        if(_this.hasClass('state') == false){
+            var nextTR = _this.parents('tr').next('tr');
+            $.ajax({
+                type : 'post',
+                url : url,
+                data : {id:id},
+                dataType : 'json',
+                success : function(result){
+                    if(result.ret == 1){
+                        _this.addClass('state');
+                        nextTR.show();
+                        nextTR.children('.brandBox').html(result.data);
+                    }else{
+                        _this.parents('tr').nextAll('.brandTR').hide();
+                    }
+                    events();
+                }
+            })
+        }
+    }
+    function eventAjax(){
+        $('.productClass li').click(function(){
+            var _this = $(this);
+            var id = $(this).data('id');
+            var url = 'index.php?r=ancadmin/selectbrand';
+            classAjax(_this,id,url);
+        }) 
+        $(document).on('click','.productbrand li',function(){
+            var _this = $(this);
+            var id = $(this).data('id');
+            var url = 'index.php?r=ancadmin/selectclassify';
+            classAjax(_this,id,url);
+        })
+        $(document).on('click','.productclassify li',function(){
+            var _this = $(this);
+            var id = $(this).data('att');
+            var url = 'index.php?r=ancadmin/selectattribute';
+            classAjax(_this,id,url);
+        })
+    }
 	//=========================多图上传js===============================//
 	
     
@@ -183,7 +344,9 @@ define(['jquery'],function ($) {
 		ancLogin      : ancLogin,
 		updateBanner  : updateBanner,
 		deleteBanner  : deleteBanner,
-		//uploader      : uploader,
+		events        : events,
+		eventAjax     : eventAjax,
+		onClicks      : onClicks,
 		deleteProImg  : deleteProImg,
 		productInf    : productInf,
 		searchSku     : searchSku
